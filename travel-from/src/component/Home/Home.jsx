@@ -1,9 +1,37 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import Aos from 'aos';
+import 'aos/dist/aos.css'; 
 
 const Home = () => {
     const [data, setData] = useState([]);
+    const [tableHead, setTableHead] = useState(null);
+    const [dataLoad , setDataLoad] = useState(null);
+
+
+    useEffect(()=>{
+        Aos.init();
+    },[])
+
+    const seccess = "Data Load Successfully";
+
+    const heading = <>
+        <thead>
+            <tr>
+                <th>FLIGHT</th>
+                <th>AIRCRAFT</th>
+                <th>CLASS</th>
+                <th>FARE</th>
+                <th>ROUTE</th>
+                <th>DEPARTURE</th>
+                <th>ARRIVAL</th>
+                <th></th>
+                <th>DURATION</th>
+                <th>PRICE</th>
+            </tr>
+        </thead>
+    </>
 
 
 
@@ -12,7 +40,11 @@ const Home = () => {
 
         fetch('data.json')
             .then(res => res.json())
-            .then(data => setData(data))
+            .then(data => {
+                setData(data.flightOffer);
+                setTableHead(heading);
+                setDataLoad(seccess);
+            })
     }
 
     console.log(data);
@@ -26,7 +58,7 @@ const Home = () => {
                 <div className="max-w-[300px] mx-auto my-4">
                     <div role="tablist" className="tabs tabs-boxed ">
                         <a role="tab" className="tab">Round Trip</a>
-                        <a role="tab" className="tab tab-active text-white font-semibold tab-active:bg-blue-600">One Way</a>
+                        <a data-aos="flip-down" role="tab" className="tab  text-white font-semibold bg-blue-700">One Way</a>
                         <a role="tab" className="tab ">Multi city</a>
                     </div>
                 </div>
@@ -65,6 +97,8 @@ const Home = () => {
                                 <option>Mon</option>
                                 <option>Tue</option>
                                 <option>Wed</option>
+                                <option>Thu</option>
+                                <option>Fri</option>
                             </select>
                             <span className="font-bold">+</span>
                             {/*ADT */}
@@ -95,7 +129,7 @@ const Home = () => {
 
                     <div className="my-2 flex justify-between items-center">
                         {/* Extra option */}
-                        <div>
+                        <div data-aos="fade-right" data-aos-duration="4000">
                             <label><input type="checkbox" name="" id="" /><span className="font-semibold">  Extra Option</span></label>
                         </div>
 
@@ -109,44 +143,86 @@ const Home = () => {
                         </div>
 
                         {/* Search Button */}
-                        <div>
-                            <input className="btn btn-primary text-white border py-2 px-3 rounded-lg " type="submit" value="Search" />
+                        <div data-aos="fade-left" data-aos-duration="4000">
+                            <input className="btn bg-blue-700 text-white border py-2 px-3 rounded-lg " type="submit" value="Search" />
                         </div>
                     </div>
-                    <hr />
+                    <div className="border-blue-400 border"></div>
                 </form>
+                <div className="my-1 text-bold" >
+                    <p className=" font-semibold">
+                        {dataLoad}
+                    </p>
+                </div>
+                <div className="mt-4" >
 
-                <div className="mt-4">
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        <table className="table table-zebra"  >
                             {/* head */}
-                            <thead>
-                                <tr>
-                                    <th>FLIGHT</th>
-                                    <th>AIRCRAFT</th>
-                                    <th>CLASS</th>
-                                    <th>FARE</th>
-                                    <th>ROUTE</th>
-                                    <th>DEPARTURE</th>
-                                    <th>ARRIVAL</th>
-                                    <th>DURATION</th>
-                                    <th>PRICE</th>
-                                </tr>
-                            </thead>
+                            {tableHead}
                             <tbody>
                                 {/* data show */}
                                 {
-                                    data.map((aData, idx)=> <tr key={idx}>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr> )
+                                    data.map((aData, idx) =>
+
+                                        <tr key={idx} >
+                                            {/* flight */}
+                                            <td>
+                                                <p>{aData.itineraries[0].segments[0].marketingCarrier}.{aData.itineraries[0].segments[0].aircraft}</p>
+                                                <p>{aData.itineraries[0].segments[0].marketingCarrier}.{aData.itineraries[0].segments[1].aircraft}</p>
+                                            </td>
+                                            {/* AirCraft */}
+                                            <td>
+                                                <p>{aData.itineraries[0].segments[0].flightNumber}</p>
+                                                <p>{aData.itineraries[0].segments[1].flightNumber}</p>
+                                            </td>
+                                            {/* Class */}
+                                            <td>
+                                                {
+                                                    aData.class[0].map((sit, idx) => <p key={idx}>
+                                                        <p>{sit}</p>
+                                                    </p>)
+                                                }
+                                            </td>
+                                            {/* Fare */}
+                                            <td>
+                                                {
+                                                    aData.fareBasis[0].map((fare, idx) => <p key={idx}>
+                                                        <p>{fare}</p>
+                                                    </p>)
+                                                }
+                                            </td>
+                                            {/* Route */}
+                                            <td>
+                                                <p>{aData.itineraries[0].segments[0].departure.iataCode}-{aData.itineraries[0].segments[0].arrival.iataCode}</p>
+                                                <p>{aData.itineraries[0].segments[1].departure.iataCode}-{aData.itineraries[0].segments[1].arrival.iataCode}</p>
+                                            </td>
+                                            {/* Departure */}
+                                            <td>
+                                                <p>{aData.itineraries[0].segments[0].departure.at}</p>
+                                                <p>{aData.itineraries[0].segments[1].departure.at}</p>
+                                            </td>
+                                            {/* Arrival */}
+                                            <td>
+                                                <p>{aData.itineraries[0].segments[0].arrival.at}</p>
+                                                <p>{aData.itineraries[0].segments[1].arrival.at}</p>
+                                            </td>
+                                            <td>
+                                                <p>--</p>
+                                                <p>--</p>
+                                            </td>
+                                            {/* duration */}
+                                            <td>
+                                                <p>{aData.itineraries[0].duration}</p>
+                                            </td>
+                                            {/* duration */}
+                                            <td>
+                                                <p className="mb-2">{aData.price}</p>
+                                                <a href="#" className=" bg-blue-700 text-white border px-2 py-1 rounded-md ">Select</a>
+                                            </td>
+
+                                            <td></td>
+                                        </tr>)
                                 }
                             </tbody>
                         </table>
