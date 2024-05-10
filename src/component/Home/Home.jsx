@@ -58,7 +58,7 @@ const Home = () => {
             <div className="max-w-5xl mx-auto">
                 {/* way selection */}
                 <div className="max-w-[350px] mx-auto my-4">
-                    <div role="tablist" className="tabs tabs-boxed ">
+                    <div role="tablist" data-aos="fade-down" className="tabs tabs-boxed ">
                         <Link to="/" onClick={() => setTabIndex(1)} role="tab" className={`tab ${tabIndex === 1 ? 'text-white font-semibold bg-blue-700 ' : ''}`}>Round Trip</Link>
                         <Link to="/" onClick={() => setTabIndex(0)}  role="tab" className={`tab ${tabIndex === 0 ? ' text-white font-semibold bg-blue-700 ' : ''}`}>One Way</Link>
                         <Link to="/" onClick={() => setTabIndex(2)} role="tab" className={`tab ${tabIndex === 2 ? ' text-white font-semibold bg-blue-700  ' : ''}`}>Multi city</Link>
