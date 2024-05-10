@@ -1,16 +1,17 @@
-
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import 'animate.css';
 
 
 const Home = () => {
     const [data, setData] = useState([]);
     const [tableHead, setTableHead] = useState(null);
     const [dataLoad, setDataLoad] = useState(null);
-
+    const [tabIndex, setTabIndex] = useState(0);
 
     useEffect(() => {
         Aos.init();
@@ -48,7 +49,27 @@ const Home = () => {
                 setDataLoad(seccess);
             })
     }
-    const [tabIndex, setTabIndex] = useState(0);
+
+    const handleSelect = () =>{
+        Swal.fire({
+            title: "Selected Successfully",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+          });
+    }
+    
     console.log(data);
 
     return (
@@ -220,7 +241,7 @@ const Home = () => {
                                             {/* duration */}
                                             <td>
                                                 <p className="mb-2">{aData.price}</p>
-                                                <a href="#" className=" bg-blue-700 text-white border px-2 py-1 rounded-md ">Select</a>
+                                                <a href="#" onClick={handleSelect} className=" bg-blue-700 text-white border px-2 py-1 rounded-md ">Select</a>
                                             </td>
 
 
