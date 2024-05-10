@@ -2,17 +2,19 @@
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Aos from 'aos';
-import 'aos/dist/aos.css'; 
+import 'aos/dist/aos.css';
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
     const [data, setData] = useState([]);
     const [tableHead, setTableHead] = useState(null);
-    const [dataLoad , setDataLoad] = useState(null);
+    const [dataLoad, setDataLoad] = useState(null);
 
 
-    useEffect(()=>{
+    useEffect(() => {
         Aos.init();
-    },[])
+    }, [])
 
     const seccess = "Data Load Successfully";
 
@@ -46,7 +48,7 @@ const Home = () => {
                 setDataLoad(seccess);
             })
     }
-
+    const [tabIndex, setTabIndex] = useState(0);
     console.log(data);
 
     return (
@@ -55,11 +57,11 @@ const Home = () => {
             <hr />
             <div className="max-w-5xl mx-auto">
                 {/* way selection */}
-                <div className="max-w-[300px] mx-auto my-4">
+                <div className="max-w-[350px] mx-auto my-4">
                     <div role="tablist" className="tabs tabs-boxed ">
-                        <a role="tab" className="tab">Round Trip</a>
-                        <a data-aos="flip-down" data-aos-duration="4000" role="tab" className="tab  text-white font-semibold bg-blue-700">One Way</a>
-                        <a role="tab" className="tab ">Multi city</a>
+                        <Link to="/" onClick={() => setTabIndex(1)} role="tab" className={`tab ${tabIndex === 1 ? 'text-white font-semibold bg-blue-700 ' : ''}`}>Round Trip</Link>
+                        <Link to="/" onClick={() => setTabIndex(0)}  role="tab" className={`tab ${tabIndex === 0 ? ' text-white font-semibold bg-blue-700 ' : ''}`}>One Way</Link>
+                        <Link to="/" onClick={() => setTabIndex(2)} role="tab" className={`tab ${tabIndex === 2 ? ' text-white font-semibold bg-blue-700  ' : ''}`}>Multi city</Link>
                     </div>
                 </div>
                 <hr />
@@ -221,9 +223,9 @@ const Home = () => {
                                                 <a href="#" className=" bg-blue-700 text-white border px-2 py-1 rounded-md ">Select</a>
                                             </td>
 
-                                            
+
                                         </tr>
-                                        )
+                                    )
                                 }
                             </tbody>
                         </table>
