@@ -17,7 +17,7 @@ const Home = () => {
     const seccess = "Data Load Successfully";
 
     const heading = <>
-        <thead>
+        <thead className="bg-slate-200">
             <tr>
                 <th>FLIGHT</th>
                 <th>AIRCRAFT</th>
@@ -58,7 +58,7 @@ const Home = () => {
                 <div className="max-w-[300px] mx-auto my-4">
                     <div role="tablist" className="tabs tabs-boxed ">
                         <a role="tab" className="tab">Round Trip</a>
-                        <a data-aos="flip-down" role="tab" className="tab  text-white font-semibold bg-blue-700">One Way</a>
+                        <a data-aos="flip-down" data-aos-duration="4000" role="tab" className="tab  text-white font-semibold bg-blue-700">One Way</a>
                         <a role="tab" className="tab ">Multi city</a>
                     </div>
                 </div>
@@ -157,15 +157,15 @@ const Home = () => {
                 <div className="mt-4" >
 
                     <div className="overflow-x-auto">
-                        <table className="table table-zebra"  >
+                        <table className="table table-zebra bg-slate-50"  >
                             {/* head */}
                             {tableHead}
-                            <tbody>
+                            <tbody >
                                 {/* data show */}
                                 {
                                     data.map((aData, idx) =>
 
-                                        <tr key={idx} >
+                                        <tr key={idx} className="border-b border-red-400">
                                             {/* flight */}
                                             <td>
                                                 <p>{aData.itineraries[0].segments[0].marketingCarrier}.{aData.itineraries[0].segments[0].aircraft}</p>
@@ -221,8 +221,9 @@ const Home = () => {
                                                 <a href="#" className=" bg-blue-700 text-white border px-2 py-1 rounded-md ">Select</a>
                                             </td>
 
-                                            <td></td>
-                                        </tr>)
+                                            
+                                        </tr>
+                                        )
                                 }
                             </tbody>
                         </table>
